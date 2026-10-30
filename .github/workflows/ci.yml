@@ -1,4 +1,4 @@
-name: CloudOps CI Pipeline
+name: CloudOps CI/CD Pipeline
 
 on:
   push:
@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   test:
+    name: Test Python application
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +31,38 @@ jobs:
 
       - name: Run automated tests
         run: python -m unittest discover -s tests -p "test*.py" -v
+
+  deploy:
+    name: Deploy to Azure App Service
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+
+      - name: Sign in to Azure using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Create deployment ZIP
+        run: |
+          zip -r cloudops-app.zip app.py requirements.txt templates static
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: sameed-cloudops-dashboard-20261030
+          package: cloudops-app.zip
+
+      - name: Sign out from Azure
+        if: always()
+        run: az logout
