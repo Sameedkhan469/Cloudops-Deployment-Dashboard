@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="dashboard">
+
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-icon">☁</span>
+                <h2>CloudOps</h2>
+            </div>
+
+            <div class="user-info">
+                <span class="status-dot"></span>
+                Application Dashboard
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section class="welcome">
+                <p class="eyebrow">CLOUD OPERATIONS PLATFORM</p>
+                <h1>Welcome to CloudOps Dashboard</h1>
+                <p>Monitor your application and deployment environment.</p>
+            </section>
+
+            <section class="cards">
+
+                <div class="card">
+                    <span class="card-icon">🚀</span>
+                    <h3>Application</h3>
+                    <p>{{ app_name }}</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⚙️</span>
+                    <h3>Environment</h3>
+                    <p>{{ environment }}</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📦</span>
+                    <h3>Version</h3>
+                    <p>{{ app_version }}</p>
+                </div>
+
+            </section>
+
+            <section class="service-panel">
+                <h2>Application Services</h2>
+
+                <div class="service">
+                    <div>
+                        <h3>Health Check API</h3>
+                        <p>Check application health status</p>
+                    </div>
+                    <a href="/health" target="_blank">Check Health →</a>
+                </div>
+
+                <div class="service">
+                    <div>
+                        <h3>Application Information API</h3>
+                        <p>View application details in JSON</p>
+                    </div>
+                    <a href="/api/info" target="_blank">View API →</a>
+                </div>
+
+            </section>
+
+            <footer>
+                <p>CloudOps Deployment Dashboard | Built with Python Flask</p>
+            </footer>
+
+        </main>
+    </div>
+</body>
+</html>
