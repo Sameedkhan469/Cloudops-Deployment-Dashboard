@@ -16,3 +16,4 @@ crash.log
 crash.*.log
 *.tfvars
 !*.example.tfvars
+cloudops-app.zip
