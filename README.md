@@ -53,7 +53,9 @@ Terraform provisions the Azure infrastructure. GitHub Actions handles applicatio
 
 ### Dashboard Preview
 
-![CloudOps Deployment Dashboard](screenshots/cloudops-dashboard.png)
+<p align="center">
+  <img src="screenshots/cloudops-dashboard.png" alt="CloudOps Deployment Dashboard" width="100%" />
+</p>
 
 [Open the live dashboard](https://sameed-cloudops-dashboard-20261030.azurewebsites.net)
 
