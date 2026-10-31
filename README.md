@@ -1,58 +1,52 @@
+
 # CloudOps Deployment Dashboard
 
-A Python Flask application deployed to Microsoft Azure App Service. This project demonstrates infrastructure provisioning with Terraform, automated testing, GitHub Actions CI/CD, secure Azure authentication with OpenID Connect (OIDC), health-check APIs, and application logging.
+A Python Flask application deployed to Microsoft Azure App Service. This project demonstrates infrastructure provisioning with Terraform, automated testing, GitHub Actions CI/CD, secure Azure authentication using OpenID Connect (OIDC), health-check APIs, application logging, and Azure monitoring.
 
-**Live application:** https://sameed-cloudops-dashboard-20261030.azurewebsites.net  
-**GitHub repository:** https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard
+**Live application:** [CloudOps Deployment Dashboard](https://sameed-cloudops-dashboard-20261030.azurewebsites.net)
+
+**GitHub repository:** [CloudOps Deployment Dashboard](https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard)
 
 ## Architecture
 
-The diagram below uses quoted Mermaid node labels so GitHub can render API paths containing slashes correctly.
-
 ```mermaid
 flowchart TD
-    Dev["Developer"] -->|"Push to main"| GH["GitHub Repository"]
-    GH --> CI["GitHub Actions"]
-    CI --> Tests["Install dependencies and run unit tests"]
-    Tests -->|"Pass"| OIDC["Azure login using OIDC"]
-    OIDC --> Deploy["Deploy ZIP package"]
-    Deploy --> App["Azure Linux App Service"]
-    User["Browser or API client"] --> App
-    App --> Health["GET /health"]
-    App --> Info["GET /api/info"]
-    App --> Logs["Application logs"]
-    TF["Terraform configuration"] --> RG["Azure Resource Group"]
-    RG --> Plan["Linux App Service Plan"]
+    Dev[Developer] -->|Push to main| GH[GitHub Repository]
+    GH --> CI[GitHub Actions]
+    CI --> Tests[Install dependencies and run unit tests]
+    Tests -->|Pass| OIDC[Azure login using OIDC]
+    OIDC --> Deploy[Deploy ZIP package]
+    Deploy --> App[Azure Linux App Service]
+    User[Browser or API client] --> App
+    App --> Health[/health]
+    App --> Info[/api/info]
+    App --> Logs[Application logs]
+    TF[Terraform configuration] --> RG[Azure Resource Group]
+    RG --> Plan[Linux App Service Plan]
     Plan --> App
 ```
 
-Terraform provisions the Azure infrastructure. GitHub Actions handles application testing and application deployment; the workflow does not run Terraform.
+Terraform provisions the Azure infrastructure. GitHub Actions handles application testing and deployment; the workflow does not run Terraform.
 
-## Screenshots
+## Azure Deployment Screenshots
 
-### CloudOps dashboard
+These screenshots show the actual Azure App Service monitoring configuration.
 
-![CloudOps Deployment Dashboard running on Azure](docs/screenshots/dashboard.png)
+### 1. Azure App Service – Log Stream
 
-### Azure App Service Log stream
+This view shows the Azure App Service Logs interface and HTTP error monitoring.
 
-<a href="docs/screenshots/azure-logs.jpg"><img src="docs/screenshots/azure-logs.jpg" alt="Azure App Service Log stream showing application output" width="100%" /></a>
+![Azure App Service Logs](screenshots/azure-logs.jpg)
 
-[Open the full-size Log stream screenshot](docs/screenshots/azure-logs.jpg)
+[Open full-size Azure Log Stream screenshot](screenshots/azure-logs.jpg)
 
-### Azure alert rules
+### 2. Azure Monitor – Alert Rules
 
-<a href="docs/screenshots/azure-alerts.jpg"><img src="docs/screenshots/azure-alerts.jpg" alt="Azure App Service alert rule showing the enabled health-check metric alert" width="100%" /></a>
+This view shows the configured Azure Monitor alert rule, its condition, target resource, signal type, and enabled status.
 
-[Open the full-size alert rules screenshot](docs/screenshots/azure-alerts.jpg)
+![Azure Monitor Alert Rules](screenshots/azure-alerts.jpg)
 
-### GitHub Actions CI/CD
-
-The latest verified pipeline run completed successfully, including Python tests and deployment to Azure App Service.
-
-[View successful GitHub Actions run #5](https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard/actions/runs/41051267566)
-
-> The original GitHub Actions success-run screenshot has not been added yet. This link opens the actual successful run; the screenshot can be added when provided.
+[Open full-size Azure Alert Rules screenshot](screenshots/azure-alerts.jpg)
 
 ## Technologies
 
@@ -70,16 +64,18 @@ The latest verified pipeline run completed successfully, including Python tests 
 - Web dashboard with application name, version, and environment
 - Health-check endpoint at `/health`
 - Application information endpoint at `/api/info`
-- Python application log messages for dashboard and API requests
+- Python application logging for dashboard and API requests
 - Automated unit tests
 - GitHub Actions workflow that tests changes and deploys successful pushes to `main`
 - Azure App Service deployment without Docker
+- Azure App Service log monitoring
+- Azure Monitor alert rule configuration
 
 ## Azure Infrastructure
 
 Terraform configuration in `main.tf` defines these resources:
 
-| Resource | Name / configuration |
+| Resource | Name / Configuration |
 |---|---|
 | Resource group | `sam-cloudops-rg` |
 | Location | Central India |
@@ -98,11 +94,9 @@ azure/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
-├── docs/
-│   └── screenshots/
-│       ├── dashboard.png
-│       ├── azure-logs.png
-│       └── azure-alerts.png
+├── screenshots/
+│   ├── azure-logs.jpg
+│   └── azure-alerts.jpg
 ├── static/
 │   └── style.css
 ├── templates/
@@ -118,7 +112,7 @@ azure/
 └── README.md
 ```
 
-Local-only files such as `.venv/`, `.terraform/`, Terraform state files, local variable files, and the deployment ZIP are excluded from Git.
+Local-only files such as `.venv/`, `.terraform/`, Terraform state files, local variable files, and deployment ZIP files are excluded from Git.
 
 ## Run Locally
 
@@ -129,14 +123,14 @@ python -m venv .venv
 source .venv/Scripts/activate
 ```
 
-Install the dependencies and start the Flask app:
+Install dependencies and start the Flask application:
 
 ```bash
 python -m pip install -r requirements.txt
 python app.py
 ```
 
-Open http://127.0.0.1:5000 in your browser.
+Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
 
 ## API Endpoints
 
@@ -166,15 +160,13 @@ python -m unittest discover -s tests -p "test*.py" -v
 
 The workflow is defined in `.github/workflows/ci.yml`.
 
-1. A push to `main` or pull request targeting `main` triggers the test job.
-2. GitHub Actions checks out the repository, sets up Python, installs dependencies, and runs the unit tests.
+1. A push to `main` or a pull request targeting `main` triggers the test job.
+2. GitHub Actions checks out the repository, sets up Python, installs dependencies, and runs unit tests.
 3. For a push to `main`, if tests pass, the deployment job starts.
 4. GitHub Actions authenticates to Azure using OIDC and the `production` GitHub Environment secrets.
 5. The workflow packages the Flask application and deploys it to Azure App Service.
 
 Pull requests run tests but do not deploy. Azure authentication uses OIDC rather than a long-lived client secret.
-
-[View the latest verified successful CI/CD run](https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard/actions/runs/41051267566).
 
 ## Terraform
 
@@ -194,9 +186,11 @@ Review the plan carefully before running `terraform apply`. Applying this config
 
 ## Monitoring and Logs
 
-Application logs are enabled for the Azure App Service. The Flask app writes informational messages when the dashboard, health-check endpoint, and application information endpoint are requested.
+Application logs are enabled for the Azure App Service. The Flask application writes informational messages when the dashboard, health-check endpoint, and application information endpoint are requested.
 
-In the Azure Portal, open the Web App and select **Monitoring → Log stream** to view live application output. The repository also includes a screenshot of the existing enabled health-check metric alert; it is not an HTTP 5xx alert.
+In the Azure Portal, open the Web App and select **Monitoring → Log stream** to view live application output.
+
+Azure Monitor alert rules can be configured to monitor application conditions and notify administrators when defined thresholds are met.
 
 ## Security Notes
 
@@ -207,6 +201,7 @@ In the Azure Portal, open the Web App and select **Monitoring → Log stream** t
 
 ## Future Improvements
 
-- Add Azure Monitor alerts for application availability and server errors.
-- Add a real GitHub Actions run screenshot to the screenshots folder.
-- Add a monitoring view with request and error metrics.
+- Add additional Azure Monitor alerts for application availability and failures.
+- Add monitoring dashboards with request and error metrics.
+- Improve application performance monitoring.
+- Add automated deployment notifications.
