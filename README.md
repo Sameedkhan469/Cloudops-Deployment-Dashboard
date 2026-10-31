@@ -28,6 +28,12 @@ A Python Flask application deployed on **Microsoft Azure App Service (Linux)**. 
 
 The web dashboard displays the application name, environment, version, and links to the API endpoints.
 
+### Dashboard Preview
+
+![CloudOps Deployment Dashboard](screenshots/cloudops-dashboard.jpg)
+
+[Open the live dashboard](https://sameed-cloudops-dashboard-20261030.azurewebsites.net)
+
 ## Architecture
 
 ```mermaid
