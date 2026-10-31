@@ -1,28 +1,49 @@
-
 # CloudOps Deployment Dashboard
 
-A Python Flask application deployed to Microsoft Azure App Service. This project demonstrates infrastructure provisioning with Terraform, automated testing, GitHub Actions CI/CD, secure Azure authentication using OpenID Connect (OIDC), health-check APIs, application logging, and Azure monitoring.
+A Python Flask application deployed on **Microsoft Azure App Service (Linux)**. This project demonstrates cloud infrastructure provisioning with Terraform, automated testing, GitHub Actions CI/CD, secure Azure authentication using OpenID Connect (OIDC), health-check APIs, application logging, and Azure monitoring.
 
-**Live application:** [CloudOps Deployment Dashboard](https://sameed-cloudops-dashboard-20261030.azurewebsites.net)
+<p align="center">
+  <a href="https://sameed-cloudops-dashboard-20261030.azurewebsites.net"><strong>🚀 Open Live Dashboard</strong></a>
+  &nbsp; • &nbsp;
+  <a href="https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard">Source Code</a>
+</p>
 
-**GitHub repository:** [CloudOps Deployment Dashboard](https://github.com/Sameedkhan469/Cloudops-Deployment-Dashboard)
+## Project Overview
+
+| Area | What this project includes |
+|---|---|
+| **Application** | Python Flask web dashboard |
+| **Cloud platform** | Microsoft Azure App Service on Linux |
+| **Infrastructure as Code** | Terraform provisions the Azure resource group, App Service Plan, and Web App |
+| **CI/CD** | GitHub Actions runs tests and deploys successful pushes to `main` |
+| **Authentication** | GitHub Actions connects to Azure using OpenID Connect (OIDC) |
+| **Monitoring** | Azure App Service logs and Azure Monitor alert rules |
+| **APIs** | `/health` for health status and `/api/info` for application details |
+
+### Open the application
+
+- **Web dashboard:** [sameed-cloudops-dashboard-20261030.azurewebsites.net](https://sameed-cloudops-dashboard-20261030.azurewebsites.net)
+- **Health check:** [`/health`](https://sameed-cloudops-dashboard-20261030.azurewebsites.net/health)
+- **Application information:** [`/api/info`](https://sameed-cloudops-dashboard-20261030.azurewebsites.net/api/info)
+
+The web dashboard displays the application name, environment, version, and links to the API endpoints.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    Dev[Developer] -->|Push to main| GH[GitHub Repository]
-    GH --> CI[GitHub Actions]
-    CI --> Tests[Install dependencies and run unit tests]
-    Tests -->|Pass| OIDC[Azure login using OIDC]
-    OIDC --> Deploy[Deploy ZIP package]
-    Deploy --> App[Azure Linux App Service]
-    User[Browser or API client] --> App
-    App --> Health[/health]
-    App --> Info[/api/info]
-    App --> Logs[Application logs]
-    TF[Terraform configuration] --> RG[Azure Resource Group]
-    RG --> Plan[Linux App Service Plan]
+    Dev["Developer"] -->|"Push to main"| GH["GitHub Repository"]
+    GH --> CI["GitHub Actions"]
+    CI --> Tests["Install dependencies and run unit tests"]
+    Tests -->|"Tests pass"| OIDC["Azure login using OIDC"]
+    OIDC --> Deploy["Deploy ZIP package"]
+    Deploy --> App["Azure Linux App Service"]
+    User["Browser or API client"] --> App
+    App --> Health["Health API: /health"]
+    App --> Info["Info API: /api/info"]
+    App --> Logs["Application logs"]
+    TF["Terraform configuration"] --> RG["Azure Resource Group"]
+    RG --> Plan["Linux App Service Plan"]
     Plan --> App
 ```
 
@@ -30,7 +51,7 @@ Terraform provisions the Azure infrastructure. GitHub Actions handles applicatio
 
 ## Azure Deployment Screenshots
 
-These screenshots show the actual Azure App Service monitoring configuration.
+These screenshots show the Azure App Service monitoring configuration. They are Azure portal screenshots, not screenshots of the Flask web dashboard.
 
 ### 1. Azure App Service – Log Stream
 
