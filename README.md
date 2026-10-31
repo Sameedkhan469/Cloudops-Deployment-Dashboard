@@ -36,11 +36,15 @@ Terraform provisions the Azure infrastructure. GitHub Actions handles applicatio
 
 ### Azure App Service Log stream
 
-![Azure Log stream showing application health-check requests](docs/screenshots/azure-logs.png)
+<a href="docs/screenshots/azure-logs.png"><img src="docs/screenshots/azure-logs.png" alt="Azure App Service Log stream showing application output" width="100%" /></a>
+
+[Open the full-size Log stream screenshot](docs/screenshots/azure-logs.png)
 
 ### Azure alert rules
 
-![Azure App Service alert rules showing the enabled health-check metric alert](docs/screenshots/azure-alerts.png)
+<a href="docs/screenshots/azure-alerts.png"><img src="docs/screenshots/azure-alerts.png" alt="Azure App Service alert rule showing the enabled health-check metric alert" width="100%" /></a>
+
+[Open the full-size alert rules screenshot](docs/screenshots/azure-alerts.png)
 
 ### GitHub Actions CI/CD
 
