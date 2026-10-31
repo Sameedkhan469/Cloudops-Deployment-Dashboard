@@ -7,24 +7,26 @@ A Python Flask application deployed to Microsoft Azure App Service. This project
 
 ## Architecture
 
+The diagram below uses quoted Mermaid node labels so GitHub can render API paths containing slashes correctly.
+
 ```mermaid
 flowchart TD
-    Dev[Developer] -->|Push to main| GH[GitHub Repository]
-    GH --> CI[GitHub Actions]
-    CI --> Tests[Install dependencies and run unit tests]
-    Tests -->|Pass| OIDC[Azure login using OIDC]
-    OIDC --> Deploy[Deploy ZIP package]
-    Deploy --> App[Azure Linux App Service]
-    User[Browser or API client] --> App
-    App --> Health[/health]
-    App --> Info[/api/info]
-    App --> Logs[Application logs]
-    TF[Terraform configuration] --> RG[Azure Resource Group]
-    RG --> Plan[Linux App Service Plan]
+    Dev["Developer"] -->|"Push to main"| GH["GitHub Repository"]
+    GH --> CI["GitHub Actions"]
+    CI --> Tests["Install dependencies and run unit tests"]
+    Tests -->|"Pass"| OIDC["Azure login using OIDC"]
+    OIDC --> Deploy["Deploy ZIP package"]
+    Deploy --> App["Azure Linux App Service"]
+    User["Browser or API client"] --> App
+    App --> Health["GET /health"]
+    App --> Info["GET /api/info"]
+    App --> Logs["Application logs"]
+    TF["Terraform configuration"] --> RG["Azure Resource Group"]
+    RG --> Plan["Linux App Service Plan"]
     Plan --> App
 ```
 
-Terraform is used to provision the Azure infrastructure. GitHub Actions handles application testing and application deployment; the workflow does not run Terraform.
+Terraform provisions the Azure infrastructure. GitHub Actions handles application testing and application deployment; the workflow does not run Terraform.
 
 ## Screenshots
 
