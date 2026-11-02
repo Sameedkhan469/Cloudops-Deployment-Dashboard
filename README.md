@@ -187,18 +187,6 @@ Example health-check response:
 python -m unittest discover -s tests -p "test*.py" -v
 ```
 
-## CI/CD Pipeline
-
-The workflow is defined in `.github/workflows/ci.yml`.
-
-1. A push to `main` or a pull request targeting `main` triggers the test job.
-2. GitHub Actions checks out the repository, sets up Python, installs dependencies, and runs unit tests.
-3. For a push to `main`, if tests pass, the deployment job starts.
-4. GitHub Actions authenticates to Azure using OIDC and the `production` GitHub Environment secrets.
-5. The workflow packages the Flask application and deploys it to Azure App Service.
-
-Pull requests run tests but do not deploy. Azure authentication uses OIDC rather than a long-lived client secret.
-
 ## Terraform
 
 The `main.tf` file provisions the resource group, Linux App Service Plan, and Linux Web App. The Azure subscription ID is supplied through the `TF_VAR_subscription_id` environment variable and is not stored in the configuration.
