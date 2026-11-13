@@ -30,22 +30,9 @@ The web dashboard displays the application name, environment, version, and links
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    Dev["Developer"] -->|"Push to main"| GH["GitHub Repository"]
-    GH --> CI["GitHub Actions"]
-    CI --> Tests["Install dependencies and run unit tests"]
-    Tests -->|"Tests pass"| OIDC["Azure login using OIDC"]
-    OIDC --> Deploy["Deploy ZIP package"]
-    Deploy --> App["Azure Linux App Service"]
-    User["Browser or API client"] --> App
-    App --> Health["Health API: /health"]
-    App --> Info["Info API: /api/info"]
-    App --> Logs["Application logs"]
-    TF["Terraform configuration"] --> RG["Azure Resource Group"]
-    RG --> Plan["Linux App Service Plan"]
-    Plan --> App
-```
+<p align="center">
+  <img src="screenshots/cloudops-architecture.png" alt="CloudOps Deployment Dashboard architecture showing GitHub Actions CI/CD, Terraform infrastructure provisioning, Azure App Service, APIs, and application monitoring" width="100%" />
+</p>
 
 Terraform provisions the Azure infrastructure. GitHub Actions handles application testing and deployment; the workflow does not run Terraform.
 
@@ -126,6 +113,8 @@ azure/
 │   └── workflows/
 │       └── ci.yml
 ├── screenshots/
+│   ├── cloudops-architecture.png
+│   ├── cloudops-dashboard.png
 │   ├── azure-logs.jpg
 │   └── azure-alerts.jpg
 ├── static/
