@@ -30,7 +30,7 @@ The web dashboard displays the application name, environment, version, and links
 
 ## Architecture
 
-![CloudOps Deployment Dashboard architecture](screenshots/cloudops-architecture.svg)
+![CloudOps Deployment Dashboard architecture](screenshots/cloudops-architecture.jpg)
 
 Terraform provisions the Azure infrastructure. GitHub Actions handles application testing and deployment; the workflow does not run Terraform.
 
@@ -111,7 +111,7 @@ azure/
 │   └── workflows/
 │       └── ci.yml
 ├── screenshots/
-│   ├── cloudops-architecture.svg
+│   ├── cloudops-architecture.jpg
 │   ├── cloudops-dashboard.png
 │   ├── azure-logs.jpg
 │   └── azure-alerts.jpg
