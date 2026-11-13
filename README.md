@@ -111,7 +111,7 @@ azure/
 │   └── workflows/
 │       └── ci.yml
 ├── screenshots/
-│   ├── cloudops-architecture.png
+│   ├── cloudops-architecture.svg
 │   ├── cloudops-dashboard.png
 │   ├── azure-logs.jpg
 │   └── azure-alerts.jpg
